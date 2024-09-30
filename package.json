@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/gogoblog/cli.git"
+    "url": "git+ssh://git@github.com/blgit-org/blgit.git"
   },
   "keywords": [
     "static",
@@ -20,9 +20,9 @@
     "generator"
   ],
   "bugs": {
-    "url": "https://github.com/gogoblog/cli/issues"
+    "url": "https://github.com/blgit-org/blgit/issues"
   },
-  "homepage": "https://github.com/gogoblog/cli#readme",
+  "homepage": "https://github.com/blgit-org/blgit#readme",
   "dependencies": {
     "gray-matter": "^4.0.3",
     "marked": "^14.1.2",
