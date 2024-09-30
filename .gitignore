@@ -1,0 +1,8 @@
+node_modules
+.vscode
+CNAME
+
+*.backup
+*.mp4
+*.js
+*.webp

@@ -1,0 +1,24 @@
+<html lang="en" dir="auto"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta property="og:title" content="Usage"/><meta property="og:description" content="How to use GoGoBlog"/><meta property="og:image" content="https://gilad.kutiel.com/usage.jpg"/><link rel="stylesheet" href="index.css"/><link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22>&lt;text y=%22.9em%22 font-size=%2290%22>🪛&lt;/text>&lt;/svg>"/><title>Usage</title></head><body><menu><a href="/">Home</a></menu><main><div class="title"><h1>Usage</h1><div class="author">Gilad Kutiel ︱ 9/29/2024</div></div><img src="usage.jpg" alt="Usage"/><article><div><p>GoGoBlog uses the following file structure:</p>
+<pre><code>index.md
+
+post
+└─ my_first_post.md
+
+html
+├─ menu.html
+└─ comments.html
+
+docs
+├─ index.html
+├─ index.css
+└─ my_first_post.html
+</code></pre>
+<p>Where <code>index.md</code> is the home page of your blog and the <code>post</code> folder is used to host your posts. 
+The <code>html</code> folder is where GoGoBlog is looking for html partials such as the top menu and the commenting service you chose to use in your blog.
+Finally, the <code>docs</code> folder is where the generated blog is saved to. 
+You can safely add images to this foler and edit the <code>index.css</code> file under this folder as GoGoBlog will not overide or delete your files. The <code>docs</code> folder should be uploded to your static hosting service (e.g. GitHub pages) </p>
+<p>To create this directory structure and generate your blog simply run this:</p>
+<pre><code>blg
+</code></pre>
+</div></article><div class="related"><a class="block" href="installation.html"><div class="preview"><img src="install.jpg" alt/><h3>Installation</h3><p>How to install GoGoBlog</p></div></a><a class="block" href="front_matter.html"><div class="preview"><img src="front_matter.jpg" alt/><h3>Front Matter</h3><p>How to write Front Matter</p></div></a></div><footer><script defer src="https://i.emote.com/js/emote.js"></script>
+<div id="emote_com"></div></footer></main></body></html>
