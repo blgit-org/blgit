@@ -30,6 +30,6 @@
     "preact-render-to-string": "^6.5.11"
   },
   "bin": {
-    "blg": "index.js"
+    "blgit": "index.js"
   }
 }

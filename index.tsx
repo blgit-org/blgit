@@ -31,7 +31,6 @@ const posts = fs.readdirSync('post').map(
     file => read(`post/${file}`)).sort(
         (a, b) => a.data.date > b.data.date ? -1 : 1) as unknown as Post[]
 
-const index = read('index.md')
 
 function localDate(post: Post) {
     return new Date(post.data.date).toLocaleDateString(post.data.lang)
@@ -70,39 +69,6 @@ function include(el: h.JSX.Element, file: string) {
     return el
 }
 
-const index_html =
-    <html lang={index.data.lang} dir="auto">
-        <head>
-            {metaViewport}
-            {ogTitle(index.data.title)}
-            {ogDescription(index.data.description)}
-            {ogImage('img/cover.jpg')}
-            <link rel="stylesheet" href="index.css" />
-            {favicon(index.data.favicon)}
-            <title>{index.data.title}</title>
-        </head>
-        <body>
-            {include(<menu />, 'html/menu.html')}
-            <main>
-                <div dangerouslySetInnerHTML={{ __html: marked(index.content) as string }}></div>
-                <div className="posts">
-                    {posts.map(post =>
-                        <a class="block" href={htmlPath(post)}>
-                            <div className="post">
-                                <div className="row">
-                                    <h2>{post.data.favicon} {post.data.title}</h2>
-                                    <time>{post.data.date}</time>
-                                </div>
-                                <p>{post.data.description}</p>
-                            </div>
-                        </a>
-                    )}
-                </div>
-            </main>
-        </body>
-    </html>
-
-
 const postPreview = (post: Post) =>
     <a class="block" href={htmlPath(post)}>
         <div className="preview">
@@ -111,6 +77,35 @@ const postPreview = (post: Post) =>
             <p>{post.data.description}</p>
         </div>
     </a>
+
+function renderHtml(args: {
+    lang: string,
+    title: string,
+    description: string,
+    image: string,
+    favicon: string,
+    body: h.JSX.Element
+}) {
+    return render(
+        <html lang={args.lang} dir="auto">
+            <head>
+                {metaViewport}
+                {ogTitle(args.title)}
+                {ogDescription(args.description)}
+                {ogImage(args.image)}
+
+                <link rel="stylesheet" href="index.css" />
+                {favicon(args.favicon)}
+                <title>{args.title}</title>
+            </head>
+            <body>
+                {include(<menu />, 'html/menu.html')}
+                {args.body}
+            </body>
+        </html>
+    )
+}
+
 
 function renderPost(i: number) {
     const n = posts.length
@@ -123,44 +118,28 @@ function renderPost(i: number) {
 
     fs.writeFileSync(
         `docs/${path.basename(post.path, '.md')}.html`,
-        render(
-            <html lang={post.data.lang} dir="auto">
-                <head>
-                    {metaViewport}
-                    {ogTitle(post.data.title)}
-                    {ogDescription(post.data.description)}
-                    {ogImage(post.data.image)}
-
-                    <link rel="stylesheet" href="index.css" />
-                    {favicon(post.data.favicon)}
-                    <title>{post.data.title}</title>
-                </head>
-                <body>
-                    {include(<menu />, 'html/menu.html')}
-                    <main>
-                        <div class='title'>
-                            <h1>{post.data.title}</h1>
-                            <div class='author'>
-                                {post.data.author} ︱ {localDate(post)}
-                            </div>
-                        </div>
+        renderHtml({
+            ...post.data,
+            body: <main>
+                <div class='title'>
+                    <h1>{post.data.title}</h1>
+                    <div class='author'>
+                        {post.data.author} ︱ {localDate(post)}
+                    </div>
+                </div>
 
 
-                        <img src={post.data.image} alt={post.data.title} />
+                <img src={post.data.image} alt={post.data.title} />
 
-                        <article>
-                            <div dangerouslySetInnerHTML={{ __html: marked(post.content) as string }}></div>
-                        </article>
+                <div dangerouslySetInnerHTML={{ __html: marked(post.content) as string }}></div>
 
-                        <div class="related">
-                            {[prev, next].map(postPreview)}
-                        </div>
+                <div class="related">
+                    {[prev, next].map(postPreview)}
+                </div>
 
-                        {include(<footer />, 'html/comments.html')}
-                    </main>
-                </body>
-            </html>
-        )
+                {include(<footer />, 'html/comments.html')}
+            </main>
+        })
     )
 }
 
@@ -179,9 +158,30 @@ ensureExists('html/comments.html')
 ensureExists('index.md')
 
 
+const index = read('index.md') as unknown as Post
+
 fs.writeFileSync(
     'docs/index.html',
-    render(index_html))
+    renderHtml({
+        ...index.data,
+        body: <main>
+            <div dangerouslySetInnerHTML={{ __html: marked(index.content) as string }}></div>
+            <div className="posts">
+                {posts.map(post =>
+                    <a class="block" href={htmlPath(post)}>
+                        <div className="post">
+                            <div className="row">
+                                <h2>{post.data.favicon} {post.data.title}</h2>
+                                <time>{post.data.date}</time>
+                            </div>
+                            <p>{post.data.description}</p>
+                        </div>
+                    </a>
+                )}
+            </div>
+        </main>
+
+    }))
 
 for (const [i, _] of posts.entries()) {
     renderPost(i)

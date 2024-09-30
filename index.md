@@ -1,13 +1,12 @@
 ---
-title: GoGoBlog
-description: GoGoBlog – The Simplest Static Blog Generator on Earth.
+title: blgit.org
+description: blgit – The Simplest Static Blog Generator on Earth.
 
 image: img/cover.jpg
 favicon: ✍️
 ---
 
-# GoGoBlog
+# blgit.org
+## The Simplest Static Blog Generator on Earth.
 
 ![cover.jpg](cover.jpg)
-
-GoGoBlog – The Simplest Static Blog Generator on Earth.
