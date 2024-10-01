@@ -7,6 +7,13 @@ import path from 'path'
 import { h } from 'preact'
 import { render } from 'preact-render-to-string'
 
+class Fs {
+    static post = 'post'
+    static html = 'html'
+    static menu = 'html/menu.html'
+    static comments = 'html/comments.html'
+}
+
 interface Metadata {
     lang: string
     author: string
@@ -27,13 +34,6 @@ function loadResource(file: string) {
     return fs.readFileSync(path.resolve(__dirname, file)).toString()
 }
 
-fs.mkdirSync('pos')
-
-const posts = fs.readdirSync('post').map(
-    file => read(`post/${file}`)).sort(
-        (a, b) => a.data.date > b.data.date ? -1 : 1) as unknown as Post[]
-
-
 function localDate(post: Post) {
     return new Date(post.data.date).toLocaleDateString(post.data.lang)
 }
@@ -46,7 +46,6 @@ function favicon(icon: string) {
     return <link rel="icon" href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${icon}</text></svg>`} />
 }
 
-const metaViewport = <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 function ogTitle(title: string) {
     return <meta property="og:title" content={title} />
@@ -70,15 +69,6 @@ function include(el: h.JSX.Element, file: string) {
 
     return el
 }
-
-const postPreview = (post: Post) =>
-    <a class="block" href={htmlPath(post)}>
-        <div className="preview">
-            <img src={post.data.image} alt="" />
-            <h3>{post.data.title}</h3>
-            <p>{post.data.description}</p>
-        </div>
-    </a>
 
 function renderHtml(args: {
     lang: string,
@@ -108,6 +98,14 @@ function renderHtml(args: {
     )
 }
 
+function ensureExists(resource: string) {
+    if (fs.existsSync(resource)) return
+
+    console.info(`${resource} not found, creating...`)
+
+    fs.mkdirSync(path.dirname(resource), { recursive: true })
+    fs.writeFileSync(resource, loadResource(resource))
+}
 
 function renderPost(i: number) {
     const n = posts.length
@@ -145,14 +143,25 @@ function renderPost(i: number) {
     )
 }
 
-function ensureExists(resource: string) {
-    if (fs.existsSync(resource)) return
+const postPreview = (post: Post) =>
+    <a class="block" href={htmlPath(post)}>
+        <div className="preview">
+            <img src={post.data.image} alt="" />
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+        </div>
+    </a>
 
-    console.info(`${resource} not found, creating...`)
 
-    fs.mkdirSync(path.dirname(resource), { recursive: true })
-    fs.writeFileSync(resource, loadResource(resource))
-}
+const metaViewport = <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+const posts = fs.readdirSync(Fs.post).map(
+    file => read(`${Fs.post}/${file}`)).sort(
+        (a, b) => a.data.date > b.data.date ? -1 : 1) as unknown as Post[]
+
+const index = read('index.md') as unknown as Post
+
+fs.mkdirSync(Fs.post, { recursive: true })
 
 ensureExists('docs/index.css')
 ensureExists('html/menu.html')
@@ -160,7 +169,6 @@ ensureExists('html/comments.html')
 ensureExists('index.md')
 
 
-const index = read('index.md') as unknown as Post
 
 fs.writeFileSync(
     'docs/index.html',
