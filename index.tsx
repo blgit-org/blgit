@@ -33,7 +33,7 @@ interface Post {
 }
 
 function loadResource(file: string) {
-    return fs.readFileSync(path.resolve(__dirname, file)).toString()
+    return fs.readFileSync(path.resolve(__dirname, file))
 }
 
 function localDate(post: Post) {
