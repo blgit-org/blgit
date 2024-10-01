@@ -8,7 +8,7 @@ image: cover.jpg
 favicon: ✍️
 ---
 
-# blgit.org
+# blgit
 ## The Simplest Static Blog Generator on Earth.
 
 ![cover.jpg](cover.jpg)
