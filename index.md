@@ -9,7 +9,10 @@ favicon: ✍️
 ---
 
 # blgit
-## The Simplest Static Blog Generator on Earth.
+
+> We need much less than we think we need. 
+>
+> ~ <cite>Maya Angelou</cite>
 
 ![cover.jpg](cover.jpg)
 

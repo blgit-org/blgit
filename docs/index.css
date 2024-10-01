@@ -87,14 +87,16 @@ blockquote {
     padding-left: 1em;
 }
 
-blockquote p::before {
-    content: '‟';
-    font-size: 1.2em;
+blockquote p:first-child:before {
+    content: '🙶';
+    margin: 0 .1em;
+    font-size: 1.1em;
 }
 
-blockquote p::after {
-    content: '”';
-    font-size: 1.2em;
+blockquote p:first-child:after {
+    content: '🙷';
+    margin: 0 .1em;
+    font-size: 1.1em;
 }
 
 code {
