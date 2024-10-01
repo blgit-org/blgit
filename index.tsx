@@ -17,6 +17,7 @@ class Fs {
 }
 
 interface Metadata {
+    url: string
     lang: string
     author: string
     date: string
@@ -58,7 +59,7 @@ function ogDescription(description: string) {
 }
 
 function ogImage(image: string) {
-    return <meta property="og:image" content={`https://gilad.kutiel.com/${image}`} />
+    return <meta property="og:image" content={`${index.data.url}/${image}`} />
 }
 
 function include(el: h.JSX.Element, file: string) {

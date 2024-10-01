@@ -1,4 +1,6 @@
 ---
+url: https://blgit.org
+
 title: blgit.org
 description: blgit – The Simplest Static Blog Generator on Earth.
 
