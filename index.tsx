@@ -9,9 +9,11 @@ import { render } from 'preact-render-to-string'
 
 class Fs {
     static post = 'post'
-    static html = 'html'
-    static menu = 'html/menu.html'
-    static comments = 'html/comments.html'
+    static index_md = 'index.md'
+    static menu_html = 'html/menu.html'
+    static comments_html = 'html/comments.html'
+    static index_css = 'docs/index.css'
+    static cover_jpg = 'docs/cover.jpg'
 }
 
 interface Metadata {
@@ -158,10 +160,11 @@ const metaViewport = <meta name="viewport" content="width=device-width, initial-
 
 fs.mkdirSync(Fs.post, { recursive: true })
 
-ensureExists('docs/index.css')
-ensureExists('html/menu.html')
-ensureExists('html/comments.html')
-ensureExists('index.md')
+ensureExists(Fs.index_css)
+ensureExists(Fs.menu_html)
+ensureExists(Fs.comments_html)
+ensureExists(Fs.index_md)
+ensureExists(Fs.cover_jpg)
 
 const posts = fs.readdirSync(Fs.post).map(
     file => read(`${Fs.post}/${file}`)).sort(
