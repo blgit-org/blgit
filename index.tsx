@@ -110,6 +110,10 @@ function ensureExists(resource: string) {
     fs.writeFileSync(resource, loadResource(resource))
 }
 
+function author(post: Post) {
+    return <div class='author'>{post.data.author} ︱ {localDate(post)}</div>
+}
+
 function renderPost(i: number) {
     const n = posts.length
 
@@ -126,9 +130,7 @@ function renderPost(i: number) {
             body: <main>
                 <div class='title'>
                     <h1>{post.data.title}</h1>
-                    <div class='author'>
-                        {post.data.author} ︱ {localDate(post)}
-                    </div>
+                    {author(post)}
                 </div>
 
                 <p>{post.data.description}</p>
@@ -149,7 +151,7 @@ function renderPost(i: number) {
 
 const postPreview = (post: Post) =>
     <a class="block" href={htmlPath(post)}>
-        <div className="preview">
+        <div class="preview">
             <img src={post.data.image} alt="" />
             <h3>{post.data.title}</h3>
             <p>{post.data.description}</p>
@@ -181,13 +183,13 @@ fs.writeFileSync(
         ...index.data,
         body: <main>
             <div dangerouslySetInnerHTML={{ __html: marked(index.content) as string }}></div>
-            <div className="posts">
+            <div class="posts">
                 {posts.map(post =>
                     <a class="block" href={htmlPath(post)}>
-                        <div className="post">
-                            <div className="row center">
+                        <div class="post">
+                            <div class="row center">
                                 <h2>{post.data.favicon} {post.data.title}</h2>
-                                <div class='author'>{post.data.author} ︱ {post.data.date}</div>
+                                {author(post)}
                             </div>
                             <p>{post.data.description}</p>
                         </div>
