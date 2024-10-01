@@ -27,6 +27,8 @@ function loadResource(file: string) {
     return fs.readFileSync(path.resolve(__dirname, file)).toString()
 }
 
+fs.mkdirSync('pos')
+
 const posts = fs.readdirSync('post').map(
     file => read(`post/${file}`)).sort(
         (a, b) => a.data.date > b.data.date ? -1 : 1) as unknown as Post[]
