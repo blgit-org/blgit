@@ -71,31 +71,6 @@ h6 {
     font-weight: 500;
 }
 
-
-.row {
-    display: flex;
-    flex-direction: row;
-}
-
-.row.center {
-    justify-content: space-between;
-    align-items: center;
-}
-
-.post {
-    margin-top: 3em;
-    padding-top: 3em;
-    border-top: var(--hr);
-}
-
-article,
-.related {
-    margin: 2em 0;
-    padding: 2em 0;
-    border-top: var(--hr);
-    border-bottom: var(--hr);
-}
-
 a {
     color: #007bff;
     text-decoration: none;
@@ -105,26 +80,21 @@ a.block {
     color: var(--color);
 }
 
-.related {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.preview,
-.preview img {
-    max-width: 380px;
-}
-
-.title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-}
-
-.author {
+blockquote {
+    font-style: italic;
     color: #666;
+    border-left: 3px solid #ccc;
+    padding-left: 1em;
+}
+
+blockquote p::before {
+    content: '‟';
+    font-size: 1.2em;
+}
+
+blockquote p::after {
+    content: '”';
+    font-size: 1.2em;
 }
 
 code {
@@ -153,6 +123,49 @@ iframe {
     height: 450px;
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.row.center {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post {
+    margin-top: 3em;
+    padding-top: 3em;
+    border-top: var(--hr);
+}
+
+.related {
+    margin: 2em 0;
+    padding: 2em 0;
+    border-top: var(--hr);
+    border-bottom: var(--hr);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.preview,
+.preview img {
+    max-width: 380px;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.author {
+    color: #666;
+}
+
+
 
 @media (max-width: 800px) {
 
@@ -166,13 +179,13 @@ iframe {
         margin: 3em 0;
     }
 
+    iframe {
+        height: 55vw;
+    }
+
     .related {
         flex-direction: column;
         align-items: center;
         font-size: smaller;
-    }
-
-    iframe {
-        height: 55vw;
     }
 }

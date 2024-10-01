@@ -131,6 +131,7 @@ function renderPost(i: number) {
                     </div>
                 </div>
 
+                <p>{post.data.description}</p>
 
                 <img src={post.data.image} alt={post.data.title} />
 
