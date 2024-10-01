@@ -155,11 +155,6 @@ const postPreview = (post: Post) =>
 
 const metaViewport = <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-const posts = fs.readdirSync(Fs.post).map(
-    file => read(`${Fs.post}/${file}`)).sort(
-        (a, b) => a.data.date > b.data.date ? -1 : 1) as unknown as Post[]
-
-const index = read('index.md') as unknown as Post
 
 fs.mkdirSync(Fs.post, { recursive: true })
 
@@ -168,6 +163,11 @@ ensureExists('html/menu.html')
 ensureExists('html/comments.html')
 ensureExists('index.md')
 
+const posts = fs.readdirSync(Fs.post).map(
+    file => read(`${Fs.post}/${file}`)).sort(
+        (a, b) => a.data.date > b.data.date ? -1 : 1) as unknown as Post[]
+
+const index = read('index.md') as unknown as Post
 
 
 fs.writeFileSync(
