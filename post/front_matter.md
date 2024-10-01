@@ -5,7 +5,7 @@ title: Front Matter
 author: Gilad Kutiel
 date: 2024-9-28
 
-description: How to write Front Matter
+description: This section explains how to write a new post in Blgit. It provides step-by-step instructions on creating and formatting content for your blog.
 
 favicon: ⚙️
 image: front_matter.jpg

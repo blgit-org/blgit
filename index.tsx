@@ -170,9 +170,9 @@ fs.writeFileSync(
                 {posts.map(post =>
                     <a class="block" href={htmlPath(post)}>
                         <div className="post">
-                            <div className="row">
+                            <div className="row center">
                                 <h2>{post.data.favicon} {post.data.title}</h2>
-                                <time>{post.data.date}</time>
+                                <div class='author'>{post.data.author} ︱ {post.data.date}</div>
                             </div>
                             <p>{post.data.description}</p>
                         </div>

@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 
 :root {
     --color: #333;
+    --hr: 2px dashed #ccc;
+    --gap: 1em 0;
 }
 
 * {
@@ -15,7 +18,7 @@ body {
 }
 
 html {
-    font-family: "Inconsolata", monospace;
+    font-family: "Fredoka", sans-serif;
     color: var(--color);
 }
 
@@ -47,6 +50,7 @@ menu a {
 main,
 img {
     max-width: 800px;
+    margin: var(--gap);
 }
 
 main {
@@ -55,8 +59,25 @@ main {
     line-height: 1.5;
 }
 
+h1 {
+    font-weight: 600;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500;
+}
+
+
 .row {
     display: flex;
+    flex-direction: row;
+}
+
+.row.center {
     justify-content: space-between;
     align-items: center;
 }
@@ -64,14 +85,15 @@ main {
 .post {
     margin-top: 3em;
     padding-top: 3em;
-    border-top: 3px dashed #ccc;
+    border-top: var(--hr);
 }
 
 article,
 .related {
-    margin-bottom: 3em;
-    padding-bottom: 3em;
-    border-bottom: 3px dashed #ccc;
+    margin: 2em 0;
+    padding: 2em 0;
+    border-top: var(--hr);
+    border-bottom: var(--hr);
 }
 
 a {
@@ -102,14 +124,19 @@ a.block {
 }
 
 .author {
-    margin-bottom: 1em;
     color: #666;
 }
 
 code {
+    font-family: "Inconsolata", monospace;
     padding: 0 0.3em;
     color: #f5d67b;
     background-color: #333;
+}
+
+pre {
+    display: block;
+    padding: var(--gap);
 }
 
 pre code {
