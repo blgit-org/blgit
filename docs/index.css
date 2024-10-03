@@ -5,6 +5,8 @@
     --color: #333;
     --hr: 2px dashed #ccc;
     --gap: 1em 0;
+    --gap-large: 2em 0;
+    --gap-x-large: 3em 0;
 }
 
 * {
@@ -40,6 +42,8 @@ menu {
     margin: 0;
     padding: 1em;
     position: fixed;
+    right: 0;
+    left: 0;
 }
 
 menu a {
@@ -65,11 +69,27 @@ h1 {
 
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
     font-weight: 500;
 }
+
+h1 {
+    font-size: xxx-large;
+}
+
+h2 {
+    font-size: xx-large;
+}
+
+h3 {
+    font-size: x-large;
+}
+
+h4 {
+    font-size: large;
+}
+
+
 
 a {
     color: #007bff;
@@ -136,14 +156,14 @@ iframe {
 }
 
 .post {
-    margin-top: 3em;
-    padding-top: 3em;
+    margin-top: var(--gap-x-large);
+    padding-top: var(--gap-x-large);
     border-top: var(--hr);
 }
 
 .related {
-    margin: 2em 0;
-    padding: 2em 0;
+    margin: var(--gap-large);
+    padding: var(--gap-large);
     border-top: var(--hr);
     border-bottom: var(--hr);
     display: flex;
@@ -170,6 +190,14 @@ iframe {
 
 
 @media (max-width: 800px) {
+    :root {
+        --color: #333;
+        --hr: 2px dashed #ccc;
+        --gap-small: .5em 0;
+        --gap: 1em 0;
+        --gap-large: 1em 0;
+        --gap-x-large: 2em 0;
+    }
 
     main,
     img,
@@ -190,4 +218,31 @@ iframe {
         align-items: center;
         font-size: smaller;
     }
+
+    h1 {
+        font-size: xx-large;
+    }
+
+    h2 {
+        font-size: x-large;
+    }
+
+    h3 {
+        font-size: large;
+    }
+
+    h4 {
+        font-size: medium;
+    }
+
+    h2,
+    h3,
+    h4 {
+        margin: var(--gap-small);
+    }
+
+    .author {
+        font-size: smaller;
+    }
+
 }

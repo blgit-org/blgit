@@ -5,7 +5,7 @@ title: Usage
 author: Gilad Kutiel
 date: 2024-9-29
 
-description: This section describes the directory structure of Blgit and its basic usage. It covers how the files and folders are organized and provides guidance on how to use the tool effectively for managing your blog.
+description: This section describes the directory structure of blgit and its basic usage. It covers how the files and folders are organized and provides guidance on how to use the tool effectively for managing your blog.
 
 favicon: 🪛
 image: usage.jpg
