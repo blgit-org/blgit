@@ -171,8 +171,9 @@ ensureExists(Fs.index_md)
 ensureExists(Fs.cover_jpg)
 
 const posts = fs.readdirSync(Fs.post).map(
+    // older to newer
     file => read(`${Fs.post}/${file}`)).sort(
-        (a, b) => a.data.date > b.data.date ? -1 : 1) as unknown as Post[]
+        (a, b) => a.data.date > b.data.date ? 1 : -1) as unknown as Post[]
 
 const index = read('index.md') as unknown as Post
 

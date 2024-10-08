@@ -16,7 +16,7 @@ favicon: ✍️
 
 ![cover.jpg](cover.jpg)
 
-blgit is an opinionated, simple static blog generator that requires zero configuration. It offers a streamlined setup, allowing users to create and manage a blog effortlessly by leveraging Git for version control. Blgit is designed for speed and simplicity, letting you focus on writing without worrying about complex configurations or setup processes.
+blgit is an opinionated, minimalistic, simple static blog generator that requires zero configuration. It offers a streamlined setup, allowing users to create and manage a blog effortlessly by leveraging Git for version control. Blgit is designed for speed and simplicity, letting you focus on writing without worrying about complex configurations or setup processes.
 
 ```
 > npx blgit

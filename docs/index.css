@@ -108,15 +108,15 @@ blockquote {
 }
 
 blockquote p:first-child:before {
-    content: '🙶';
+    content: '“';
     margin: 0 .1em;
-    font-size: 1.1em;
+    font-size: 1.8em;
 }
 
 blockquote p:first-child:after {
-    content: '🙷';
+    content: '”';
     margin: 0 .1em;
-    font-size: 1.1em;
+    font-size: 1.8em;
 }
 
 code {
@@ -235,9 +235,12 @@ iframe {
         font-size: medium;
     }
 
+
+    h1,
     h2,
     h3,
-    h4 {
+    h4,
+    p {
         margin: var(--gap-small);
     }
 
