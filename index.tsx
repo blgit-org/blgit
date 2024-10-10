@@ -1,5 +1,6 @@
 #! /usr/bin/env node
 
+import { Feed } from 'feed'
 import fs from 'fs'
 import { read } from 'gray-matter'
 import { marked } from 'marked'
@@ -84,13 +85,17 @@ function renderHtml(args: {
     return render(
         <html lang={args.lang} dir="auto">
             <head>
+                {favicon(args.favicon)}
+
                 {metaViewport}
+
                 {ogTitle(args.title)}
                 {ogDescription(args.description)}
                 {ogImage(args.image)}
 
+                <link rel="alternate" type="application/rss+xml" href={rssLink} title={index.data.title} />
                 <link rel="stylesheet" href="index.css" />
-                {favicon(args.favicon)}
+
                 <title>{args.title}</title>
             </head>
             <body>
@@ -176,35 +181,81 @@ const posts = fs.readdirSync(Fs.post).map(
         (a, b) => a.data.date > b.data.date ? 1 : -1) as unknown as Post[]
 
 const index = read('index.md') as unknown as Post
+const rssLink = `${index.data.url}/rss.xml`
 
 
-fs.writeFileSync(
-    'docs/index.html',
-    renderHtml({
-        ...index.data,
-        body: <main>
-            <div dangerouslySetInnerHTML={{ __html: marked(index.content) as string }}></div>
-            <div class="posts">
-                {posts.map(post =>
-                    <a class="block" href={htmlPath(post)}>
-                        <div class="post">
-                            <div class="row center">
-                                <h2>{post.data.favicon} {post.data.title}</h2>
-                                {author(post)}
+function renderFeed() {
+    const today = new Date()
+    const feed = new Feed({
+        title: index.data.title,
+        description: index.data.description,
+        id: index.data.url,
+        link: index.data.url,
+        language: index.data.lang,
+        image: `${index.data.url}/${index.data.image}`,
+        copyright: `All rights reserved ${today.getFullYear()}, ${index.data.author}`,
+        generator: 'blgit',
+        feedLinks: {
+            rss: rssLink,
+        },
+        author: {
+            name: index.data.author,
+        }
+    })
+
+    for (const post of posts) {
+        const data = post.data
+        feed.addItem({
+            title: data.title,
+            id: `${index.data.url}/${htmlPath(post)}`,
+            link: `${index.data.url}/${htmlPath(post)}`,
+            description: post.data.description,
+            date: new Date(post.data.date),
+            image: `${index.data.url}/${post.data.image}`,
+            author: [{
+                name: index.data.author,
+            }]
+        })
+    }
+    console.log('writing rss.xml')
+    fs.writeFileSync('docs/rss.xml', feed.rss2())
+}
+
+function renderIndexHtml() {
+    fs.writeFileSync(
+        'docs/index.html',
+        renderHtml({
+            ...index.data,
+            body: <main>
+                <div dangerouslySetInnerHTML={{ __html: marked(index.content) as string }}></div>
+                <div class="posts">
+                    {posts.map(post =>
+                        <a class="block" href={htmlPath(post)}>
+                            <div class="post">
+                                <div class="row center">
+                                    <h2>{post.data.favicon} {post.data.title}</h2>
+                                    {author(post)}
+                                </div>
+                                <p>{post.data.description}</p>
                             </div>
-                            <p>{post.data.description}</p>
-                        </div>
-                    </a>
-                )}
-            </div>
-        </main>
+                        </a>
+                    )}
+                </div>
+            </main>
 
-    }))
+        }))
+}
 
+// OUTPUTS
+renderFeed()
+renderIndexHtml()
 for (const [i, _] of posts.entries()) {
     renderPost(i)
 }
 
 
+// DONE
+console.log('')
+console.log('🎉🎉🎉🎉🎉🎉🎉')
 console.log('Blog is ready!')
 console.log('Run `npx serve docs` to view it locally')

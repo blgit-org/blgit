@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>blgit.org</title>
+        <link>https://blgit.org</link>
+        <description>blgit – The Simplest Static Blog Generator on Earth.</description>
+        <lastBuildDate>Thu, 10 Oct 2024 01:31:32 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>blgit</generator>
+        <image>
+            <title>blgit.org</title>
+            <url>https://blgit.org/cover.jpg</url>
+            <link>https://blgit.org</link>
+        </image>
+        <copyright>All rights reserved 2024, undefined</copyright>
+        <atom:link href="https://blgit.org/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Front Matter]]></title>
+            <link>https://blgit.org/front_matter.html</link>
+            <guid>https://blgit.org/front_matter.html</guid>
+            <pubDate>Fri, 27 Sep 2024 21:00:00 GMT</pubDate>
+            <description><![CDATA[This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog.]]></description>
+            <enclosure url="https://blgit.org/front_matter.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Usage]]></title>
+            <link>https://blgit.org/usage.html</link>
+            <guid>https://blgit.org/usage.html</guid>
+            <pubDate>Sat, 28 Sep 2024 21:00:00 GMT</pubDate>
+            <description><![CDATA[This section describes the directory structure of blgit and its basic usage. It covers how the files and folders are organized and provides guidance on how to use the tool effectively for managing your blog.]]></description>
+            <enclosure url="https://blgit.org/usage.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Installation]]></title>
+            <link>https://blgit.org/installation.html</link>
+            <guid>https://blgit.org/installation.html</guid>
+            <pubDate>Sun, 29 Sep 2024 21:00:00 GMT</pubDate>
+            <description><![CDATA[This section describes how to install blgit, an opinionated, simple static blog generator with zero configuration. With its streamlined setup and Git integration, you'll be able to quickly get your blog up and running in no time.]]></description>
+            <enclosure url="https://blgit.org/install.jpg" length="0" type="image/jpg"/>
+        </item>
+    </channel>
+</rss>
