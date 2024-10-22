@@ -1,11 +1,11 @@
 ---
-url: https://blgit.org
-
 title: blgit.org
 description: blgit – The Simplest Static Blog Generator on Earth.
-
 image: cover.jpg
 favicon: ✍️
+
+url: https://blgit.org
+date format: '%Y-%d/%m/%m'
 ---
 
 # blgit

@@ -1,0 +1,33 @@
+<html dir="auto">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="{{title}}" />
+    <meta property="og:description" content="{{description}}" />
+    <meta property="og:image" content="{{url}}/{{image}}" />
+
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>{{favicon}}</text></svg>">
+
+
+    <link rel="alternate" type="application/rss+xml" href="{{url}}/rss.xml" title="{{title}}" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <menu><a href="/">Home</a></menu>
+    <main>
+        <div>
+            {% block header %}
+            {% endblock %}
+            {{body}}
+            {% block footer %}
+            {% endblock %}
+        </div>
+    </main>
+</body>
+
+</html>

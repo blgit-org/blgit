@@ -2,6 +2,7 @@ node_modules
 .vscode
 CNAME
 __pycache__
+template
 
 *.backup
 *.mp4

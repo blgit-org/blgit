@@ -1,8 +1,16 @@
-<html>
-<head>
-    <title>{{title}}</title>
-</head>
-<main>
-{{body}}
-</main>
-</html>
+{% extends "html.j2" %}
+{% block footer %}
+<div class="posts">
+    {% for post in posts %}
+    <a class="block" href="{{post.path}}">
+        <div class="post">
+            <div class="row center">
+                <h2>{{post.favicon}} {{post.title}}</h2>
+                <div class=" author">{{post.author}} ︱ {{post.date}}</div>
+            </div>
+        </div>
+        <p>{{post.description}}</p>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
