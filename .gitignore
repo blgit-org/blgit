@@ -1,8 +1,10 @@
 node_modules
 .vscode
 CNAME
+__pycache__
 
 *.backup
 *.mp4
 *.js
 *.webp
+*.pyc
