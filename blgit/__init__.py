@@ -1,8 +1,7 @@
-from datetime import date
+from datetime import date, datetime, timezone
 from importlib.resources import open_text
 from pathlib import Path
 from sqlite3 import Date
-from typing import Iterable
 
 import cattrs
 import typer
@@ -13,6 +12,8 @@ from frontmatter import Frontmatter
 from jinja2 import Environment, FileSystemLoader
 from markdown import markdown
 from rich import print
+
+MD_EXTENSIONS = ['fenced_code']
 
 app = typer.Typer()
 
@@ -56,26 +57,25 @@ class index_info(info):
 class post_info(info):
     date: Date
     author: str
-    date_str: str | None = None
-    path: str | None = None
 
 
 @dataclass(frozen=True, kw_only=True)
-class index_md:
+class index:
     info: index_info
     body: str
 
 
 @dataclass(frozen=True, kw_only=True)
-class post_md:
+class post:
     info: post_info
     body: str
+    path: str
 
 
 def read_index():
     fm = Frontmatter.read_file('index.md')
 
-    return index_md(
+    return index(
         info=structure(fm['attributes'], index_info),
         body=fm['body'])
 
@@ -84,11 +84,11 @@ def read_post(path: Path):
     fm = Frontmatter.read_file(path)
 
     info = structure(fm['attributes'], post_info)
-    info.path = path.with_suffix('.html').name
 
-    return post_md(
+    return post(
         info=info,
-        body=fm['body'])
+        body=fm['body'],
+        path=path.with_suffix('.html').name)
 
 
 def read_posts():
@@ -111,50 +111,31 @@ def write(path: Path, content: str):
     path.write_text(content)
 
 
-def format_date(posts: Iterable[post_md], fmt: str):
-    for post in posts:
-        post.info.date_str = post.info.date.strftime(fmt)
-
-
-def feed(index: index_info, posts: list[post_info]):
+def feed(index: index_info, posts: list[post]):
     fg = FeedGenerator()
     fg.title(index.title)
     fg.link(href=index.url, rel='alternate')
     fg.description(index.description)
 
     for post in posts:
+        dt = datetime.combine(
+            post.info.date,
+            datetime.min.time(),
+            tzinfo=timezone.utc)
+
         fe = fg.add_entry()
-        fe.title(post.title)
+        fe.title(post.info.title)
         fe.link(href=f'{index.url}/{post.path}', rel='alternate')
-        fe.description(post.description)
-        fe.published(post.date)
+        fe.description(post.info.description)
+        fe.published(dt)
 
     return fg
 
 
-@app.command()
-def build():
-    extensions = ['fenced_code']
-
-    ensure_exists(fs.html_j2, res2str('html.j2'))
-    ensure_exists(fs.index_j2, res2str('index.j2'))
-    ensure_exists(fs.post_j2, res2str('post.j2'))
-    ensure_exists(fs.index_css, res2str('index.css'))
-
-    env = Environment(loader=FileSystemLoader(fs.template))
+def gen_index(env: Environment, posts: list[post]):
     index_j2 = env.get_template('index.j2')
 
     index_md = read_index()
-
-    date_format = index_md.info.date_format
-
-    posts = read_posts()
-
-    format_date(
-        posts,
-        fmt=date_format)
-
-    print('Generating [bold]index.html[/bold]')
 
     write(
         fs.index_html,
@@ -163,12 +144,16 @@ def build():
 
             body=markdown(
                 index_md.body,
-                extensions=extensions),
+                extensions=MD_EXTENSIONS),
 
             posts=[
                 unstructure(post.info)
                 for post in posts]))
 
+    return index_md
+
+
+def gen_posts(env: Environment, posts: list[post], config: dict):
     post_j2 = env.get_template('post.j2')
 
     for i, post in enumerate(posts):
@@ -176,25 +161,45 @@ def build():
         prev = posts[(i - 1 + n) % n]
         next = posts[(i + 1) % n]
 
-        assert post.info.path is not None
-
-        out = fs.docs / post.info.path
+        out = fs.docs / post.path
         print(f'Generating [bold]{out}[/bold]')
 
         write(
             out,
             post_j2.render(
-                **unstructure(post.info),
-
-                lang=index_md.info.lang,
+                **(config | unstructure(post.info)),
 
                 body=markdown(
                     post.body,
-                    extensions=extensions),
+                    extensions=MD_EXTENSIONS),
 
                 related=[
                     prev.info,
                     next.info]))
+
+
+@app.command()
+def build():
+
+    ensure_exists(fs.html_j2, res2str('html.j2'))
+    ensure_exists(fs.index_j2, res2str('index.j2'))
+    ensure_exists(fs.post_j2, res2str('post.j2'))
+    ensure_exists(fs.index_css, res2str('index.css'))
+
+    env = Environment(loader=FileSystemLoader(fs.template))
+    posts = read_posts()
+
+    print('Generating [bold]index.html[/bold]')
+    index_md = gen_index(env, posts)
+
+    gen_posts(env, posts, unstructure(index_md.info))
+
+    print('Generating [bold]feed.xml[/bold]')
+    feed(index_md.info, posts).rss_file(fs.docs / 'feed.xml')
+
+    print()
+    print('You can now run:')
+    print('[bold]npx serve docs[/bold]')
 
 
 @app.command()
