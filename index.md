@@ -4,9 +4,9 @@ description: blgit – The Simplest Static Blog Generator on Earth.
 image: cover.jpg
 favicon: ✍️
 
+lang: en
 url: https://blgit.org
-date format: '%Y-%d/%m/%m'
-
+date_format: '%d/%m/%Y'
 ---
 
 # blgit

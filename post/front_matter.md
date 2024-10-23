@@ -11,24 +11,34 @@ favicon: ⚙️
 image: front_matter.jpg
 ---
 
-Each `.md` file should have a front matter section like so:
+Your `index_md` file should have a front matter section like so:
 
 ```
 ---
-lang: en 
+lang: en
+url: https://blgit.org
+date_format: '%d/%m/%Y'
 
-title: Front Matter
-author: Gilad Kutiel
-date: 2024-9-28
-
-description: How to write Front Matter
-
-favicon: ⚙️
-image: front_matter.jpg
+title: blgit.org
+description: Some description
+image: image.jpg
+favicon: 🔨
 ---
 ```
 
-The content of the front matter is passed to the template engine as key-val attributes.
+Which will be passed to the template engine as key-val attributes.
 
-**Note:** The `index.md` file must have two additional attributes, namely **url** and **date format**. 
-These attributes are important for the generation process.
+Each of your post `.md` files should have a front matter section like this:
+
+```
+---
+date: 2024-09-28
+
+title: blgit.org
+description: Some description
+image: image.jpg
+favicon: 🔨
+---
+```
+
+These are mandatory for the proper generation of the blog.

@@ -33,23 +33,30 @@
 <img src=front_matter.jpg alt=Front Matter />
 
 
-            <p>Each <code>.md</code> file should have a front matter section like so:</p>
+            <p>Your <code>index_md</code> file should have a front matter section like so:</p>
 <pre><code>---
-lang: en 
+lang: en
+url: https://blgit.org
+date_format: '%d/%m/%Y'
 
-title: Front Matter
-author: Gilad Kutiel
-date: 2024-9-28
-
-description: How to write Front Matter
-
-favicon: ⚙️
-image: front_matter.jpg
+title: blgit.org
+description: Some description
+image: image.jpg
+favicon: 🔨
 ---
 </code></pre>
-<p>The content of the front matter is passed to the template engine as key-val attributes.</p>
-<p><strong>Note:</strong> The <code>index.md</code> file must have two additional attributes, namely <strong>url</strong> and <strong>date format</strong>. 
-These attributes are important for the generation process.</p>
+<p>Which will be passed to the template engine as key-val attributes.</p>
+<p>Each of your post <code>.md</code> files should have a front matter section like this:</p>
+<pre><code>---
+date: 2024-09-28
+
+title: blgit.org
+description: Some description
+image: image.jpg
+favicon: 🔨
+---
+</code></pre>
+<p>These are mandatory for the proper generation of the blog.</p>
             
 
 <div class="related">
@@ -62,11 +69,11 @@ These attributes are important for the generation process.</p>
         </div>
     </a>
     
-    <a class="block" href=test.html>
+    <a class="block" href=installation.html>
         <div class="preview">
-            <img src=https://www.publicdomainpictures.net/pictures/210000/velka/new-text-overlay.jpg alt="" />
-            <h3>New Post</h3>
-            <p>This is a new post</p>
+            <img src=install.jpg alt="" />
+            <h3>Installation</h3>
+            <p>This section describes how to install blgit, an opinionated, simple static blog generator with zero configuration. With its streamlined setup and Git integration, you'll be able to quickly get your blog up and running in no time.</p>
         </div>
     </a>
     
