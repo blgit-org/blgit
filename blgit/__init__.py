@@ -118,9 +118,10 @@ def build():
 
         out = fs.docs / post.attrs['path']
         print(f'Generating [bold]{out}[/bold]')
+
         write(
             out,
             post_j2.render(
                 body=markdown(post.body, extensions=extensions),
-                **post.attrs,
+                **{**index_md.attrs, **post.attrs},
                 related=[prev.attrs, next.attrs]))

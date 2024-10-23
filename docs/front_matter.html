@@ -1,17 +1,17 @@
-<html dir="auto">
+<html dir="auto" lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="Front Matter" />
     <meta property="og:description" content="This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog." />
-    <meta property="og:image" content="/front_matter.jpg" />
+    <meta property="og:image" content="https://blgit.org/front_matter.jpg" />
 
 
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
 
 
-    <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Front Matter" />
+    <link rel="alternate" type="application/rss+xml" href="https://blgit.org/rss.xml" title="Front Matter" />
     <link rel="stylesheet" href="index.css" />
 
     <title>Front Matter</title>
@@ -33,7 +33,7 @@
 <img src=front_matter.jpg alt=Front Matter />
 
 
-            <p>Each post (and also the home page of your blog) need to have a front matter section that looks something like that:</p>
+            <p>Each <code>.md</code> file should have a front matter section like so:</p>
 <pre><code>---
 lang: en 
 
@@ -47,6 +47,8 @@ favicon: ⚙️
 image: front_matter.jpg
 ---
 </code></pre>
+<p>The content of the front matter are passed to the template engine as key-val attributes.</p>
+<p>Note that the attributes defined in the index.md files are passed to the template engine for each post. However, you can (and should) override them in individual posts as needed.</p>
             
 
 <div class="related">
@@ -69,8 +71,11 @@ image: front_matter.jpg
     
 </div>
 
-<script defer src="https://i.emote.com/js/emote.js"></script>
-<div id="emote_com"></div>
+<script src="https://giscus.app/client.js" data-repo="blgit-org/blgit" data-repo-id="R_kgDOM5fQ-Q"
+    data-category="Announcements" data-category-id="DIC_kwDOM5fQ-c4Cjm_h" data-mapping="og:title" data-strict="0"
+    data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en"
+    data-loading="lazy" crossorigin="anonymous" async>
+    </script>
 
 
         </div>

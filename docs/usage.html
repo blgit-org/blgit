@@ -1,17 +1,17 @@
-<html dir="auto">
+<html dir="auto" lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="Usage" />
     <meta property="og:description" content="This section describes the directory structure of blgit and its basic usage. It covers how the files and folders are organized and provides guidance on how to use the tool effectively for managing your blog." />
-    <meta property="og:image" content="/usage.jpg" />
+    <meta property="og:image" content="https://blgit.org/usage.jpg" />
 
 
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪛</text></svg>">
 
 
-    <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Usage" />
+    <link rel="alternate" type="application/rss+xml" href="https://blgit.org/rss.xml" title="Usage" />
     <link rel="stylesheet" href="index.css" />
 
     <title>Usage</title>
@@ -34,7 +34,13 @@
 
 
             <p>blgit uses the following file structure:</p>
-<pre><code>index.md
+<pre><code>
+template
+├─ html.j2
+├─ index.j2
+└─ post.j2
+
+index.md
 
 post
 └─ my_first_post.md
@@ -44,12 +50,17 @@ docs
 ├─ index.css
 └─ my_first_post.html
 </code></pre>
-<p>Where <code>index.md</code> is the home page of your blog and the <code>post</code> folder is used to host your posts. 
-The <code>html</code> folder is where blgit is looking for html partials such as the top menu and the commenting service you chose to use in your blog.
-Finally, the <code>docs</code> folder is where the generated blog is saved to. 
-You can safely add images to this folder and edit the <code>index.css</code> file under this folder as blgit will not override or delete your files. The <code>docs</code> folder should be uploaded to your static hosting service (e.g. GitHub pages) </p>
+<p>The <code>.j2</code> files under the <code>template</code> folder controls how your home page and each post will look like.</p>
+<p><code>index.md</code> is where you write the content of the home page and the <code>post</code> folder is where you write the content of your posts. </p>
+<p>The <code>docs</code> folder is where the generated blog is saved to. </p>
+<p>You can safely edit the <code>.j2</code> files to fit your needs. 
+You can also add images and other files to the <code>docs</code> folder and also edit the <code>index.css</code> file as blgit will not override or delete your files. </p>
+<p>The <code>docs</code> folder should be uploaded to your static hosting service (e.g. GitHub pages) </p>
 <p>To create this directory structure and generate your blog simply run this:</p>
-<pre><code>blgit
+<pre><code>blgit build
+</code></pre>
+<p><strong>Tip:</strong> If you don't want to run <code>blgit</code> after every change, you can use your favorite file-watching tool like this:</p>
+<pre><code>ls **.css **.j2 **.md | entr -c blgit build     
 </code></pre>
             
 
@@ -73,8 +84,11 @@ You can safely add images to this folder and edit the <code>index.css</code> fil
     
 </div>
 
-<script defer src="https://i.emote.com/js/emote.js"></script>
-<div id="emote_com"></div>
+<script src="https://giscus.app/client.js" data-repo="blgit-org/blgit" data-repo-id="R_kgDOM5fQ-Q"
+    data-category="Announcements" data-category-id="DIC_kwDOM5fQ-c4Cjm_h" data-mapping="og:title" data-strict="0"
+    data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en"
+    data-loading="lazy" crossorigin="anonymous" async>
+    </script>
 
 
         </div>

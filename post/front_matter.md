@@ -11,7 +11,7 @@ favicon: ⚙️
 image: front_matter.jpg
 ---
 
-Each post (and also the home page of your blog) need to have a front matter section that looks something like that:
+Each `.md` file should have a front matter section like so:
 
 ```
 ---
@@ -27,3 +27,7 @@ favicon: ⚙️
 image: front_matter.jpg
 ---
 ```
+
+The content of the front matter are passed to the template engine as key-val attributes.
+
+Note that the attributes defined in the index.md files are passed to the template engine for each post. However, you can (and should) override them in individual posts as needed.

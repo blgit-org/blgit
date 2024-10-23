@@ -13,6 +13,12 @@ image: usage.jpg
 
 blgit uses the following file structure:
 ```
+
+template
+├─ html.j2
+├─ index.j2
+└─ post.j2
+
 index.md
 
 post
@@ -24,12 +30,23 @@ docs
 └─ my_first_post.html
 ```
 
-Where `index.md` is the home page of your blog and the `post` folder is used to host your posts. 
-The `html` folder is where blgit is looking for html partials such as the top menu and the commenting service you chose to use in your blog.
-Finally, the `docs` folder is where the generated blog is saved to. 
-You can safely add images to this folder and edit the `index.css` file under this folder as blgit will not override or delete your files. The `docs` folder should be uploaded to your static hosting service (e.g. GitHub pages) 
+The `.j2` files under the `template` folder controls how your home page and each post will look like.
+
+`index.md` is where you write the content of the home page and the `post` folder is where you write the content of your posts. 
+
+The `docs` folder is where the generated blog is saved to. 
+
+You can safely edit the `.j2` files to fit your needs. 
+You can also add images and other files to the `docs` folder and also edit the `index.css` file as blgit will not override or delete your files. 
+
+The `docs` folder should be uploaded to your static hosting service (e.g. GitHub pages) 
 
 To create this directory structure and generate your blog simply run this:
 ```
-blgit
+blgit build
+```
+
+**Tip:** If you don't want to run `blgit` after every change, you can use your favorite file-watching tool like this:
+```
+ls **.css **.j2 **.md | entr -c blgit build     
 ```
