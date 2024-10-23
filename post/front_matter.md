@@ -3,7 +3,7 @@ lang: en
 
 title: Front Matter
 author: Gilad Kutiel
-date: 2024-9-28
+date: 2024-9-30
 
 description: This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog.
 

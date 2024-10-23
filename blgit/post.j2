@@ -1,6 +1,30 @@
 {% extends "html.j2" %}
+
 {% block header %}
-<h1>{{title}}</h1>
+
+<div class="title">
+    <h1>{{title}}</h1>
+    <div class="author">{{author}} ︱ {{date}}</div>
+</div>
+
+<p>{{description}}</p>
+
+<img src={{image}} alt={{title}} />
+
 {% endblock %}
+
 {% block footer %}
+
+<div class="related">
+    {% for r in related %}
+    <a class="block" href={{r.path}}>
+        <div class="preview">
+            <img src={{r.image}} alt="" />
+            <h3>{{r.title}}</h3>
+            <p>{{r.description}}</p>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
 {% endblock %}
