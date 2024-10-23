@@ -6,6 +6,7 @@ favicon: ✍️
 
 url: https://blgit.org
 date format: '%Y-%d/%m/%m'
+
 ---
 
 # blgit
