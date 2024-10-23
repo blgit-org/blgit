@@ -54,6 +54,9 @@ def hello_world():
     print("Hello, World!")
 ```
 
+## Horizontal Rule
+---
+
 ## Tables
 
 | Syntax      | Description |
@@ -61,5 +64,3 @@ def hello_world():
 | Header      | Title       |
 | Paragraph   | Text        |
 
-## Horizontal Rule
----
