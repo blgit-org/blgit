@@ -3,7 +3,7 @@ lang: en
 
 title: Usage
 author: Gilad Kutiel
-date: 2024-9-29
+date: 2024-09-29
 
 description: This section describes the directory structure of blgit and its basic usage. It covers how the files and folders are organized and provides guidance on how to use the tool effectively for managing your blog.
 

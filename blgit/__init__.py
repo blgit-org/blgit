@@ -1,9 +1,9 @@
 from dataclasses import dataclass
+from datetime import date
 from importlib.resources import open_text
 from pathlib import Path
 
 import typer
-from dateutil.parser import parse
 from frontmatter import Frontmatter
 from jinja2 import Environment, FileSystemLoader
 from markdown import markdown
@@ -52,7 +52,7 @@ def load_posts():
 
     return sorted(
         posts,
-        key=lambda p: parse(p.attrs['date']))
+        key=lambda p: p.attrs['date'])
 
 
 def ensure_exists(path: Path, content: str):
@@ -73,7 +73,7 @@ def format_date(*mds: md, fmt: str):
         if 'date' not in m.attrs:
             continue
 
-        m.attrs['date'] = parse(m.attrs['date']).strftime(fmt)
+        m.attrs['date_str'] = m.attrs['date'].strftime(fmt)
 
 
 @app.command()
@@ -123,5 +123,19 @@ def build():
             out,
             post_j2.render(
                 body=markdown(post.body, extensions=extensions),
-                **{**index_md.attrs, **post.attrs},
+                **post.attrs,
                 related=[prev.attrs, next.attrs]))
+
+
+@app.command()
+def new_post(name: str):
+    post = Path('post') / f'{name}.md'
+    if post.exists():
+        print(f'Post [bold]{name}[/bold] already exists')
+        raise typer.Exit()
+
+    write(
+        post,
+        res2str('new_post.md').replace(
+            '$date$',
+            date.today().strftime('%Y-%m-%d')))

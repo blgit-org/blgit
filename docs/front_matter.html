@@ -4,14 +4,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="Front Matter" />
     <meta property="og:description" content="This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog." />
-    <meta property="og:image" content="https://blgit.org/front_matter.jpg" />
+    <meta property="og:image" content="/front_matter.jpg" />
 
 
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
 
 
-    <link rel="alternate" type="application/rss+xml" href="https://blgit.org/rss.xml" title="Front Matter" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Front Matter" />
     <link rel="stylesheet" href="index.css" />
 
     <title>Front Matter</title>
@@ -47,8 +47,9 @@ favicon: ⚙️
 image: front_matter.jpg
 ---
 </code></pre>
-<p>The content of the front matter are passed to the template engine as key-val attributes.</p>
-<p>Note that the attributes defined in the index.md files are passed to the template engine for each post. However, you can (and should) override them in individual posts as needed.</p>
+<p>The content of the front matter is passed to the template engine as key-val attributes.</p>
+<p><strong>Note:</strong> The <code>index.md</code> file must have two additional attributes, namely <strong>url</strong> and <strong>date format</strong>. 
+These attributes are important for the generation process.</p>
             
 
 <div class="related">
@@ -61,11 +62,11 @@ image: front_matter.jpg
         </div>
     </a>
     
-    <a class="block" href=installation.html>
+    <a class="block" href=test.html>
         <div class="preview">
-            <img src=install.jpg alt="" />
-            <h3>Installation</h3>
-            <p>This section describes how to install blgit, an opinionated, simple static blog generator with zero configuration. With its streamlined setup and Git integration, you'll be able to quickly get your blog up and running in no time.</p>
+            <img src=https://www.publicdomainpictures.net/pictures/210000/velka/new-text-overlay.jpg alt="" />
+            <h3>New Post</h3>
+            <p>This is a new post</p>
         </div>
     </a>
     
