@@ -9,7 +9,7 @@
 
 <p>{{description}}</p>
 
-<img src={{image}} alt={{title}} />
+<img src="{{image}}" alt="{{title}}">
 
 {% endblock %}
 
@@ -17,9 +17,9 @@
 
 <div class="related">
     {% for r in related %}
-    <a class="block" href={{r.path}}>
+    <a class="block" href="{{r.path}}">
         <div class="preview">
-            <img src={{r.info.image}} alt="" />
+            <img src="{{r.info.image}}">
             <h3>{{r.info.title}}</h3>
             <p>{{r.info.description}}</p>
         </div>
