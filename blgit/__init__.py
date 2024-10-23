@@ -189,9 +189,7 @@ def gen_posts(env: Environment, posts: list[post], config: dict):
                     post.body,
                     extensions=MD_EXTENSIONS),
 
-                related=[
-                    prev.info,
-                    next.info]))
+                related=[prev, next]))
 
 
 @app.command()
