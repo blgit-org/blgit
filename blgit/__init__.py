@@ -140,7 +140,6 @@ def feed(index: index_info, posts: list[post]):
         fe.link(href=f'{index.url}/{post.path}', rel='alternate')
         fe.description(post.info.description)
         fe.published(dt)
-        fe.
 
     return fg
 
@@ -160,7 +159,7 @@ def gen_index(env: Environment, posts: list[post]):
                 extensions=MD_EXTENSIONS),
 
             posts=[
-                unstructure(post.info)
+                unstructure(post)
                 for post in posts]))
 
     return index_md
@@ -183,6 +182,8 @@ def gen_posts(env: Environment, posts: list[post], config: dict):
             out,
             post_j2.render(
                 **data,
+
+                path=post.path,
 
                 body=markdown(
                     post.body,
