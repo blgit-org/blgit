@@ -3,9 +3,12 @@ node_modules
 CNAME
 __pycache__
 template
+dist
 
 *.backup
 *.mp4
 *.js
 *.webp
 *.pyc
+*.whl
+*.gz
