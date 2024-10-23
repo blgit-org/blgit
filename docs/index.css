@@ -31,7 +31,7 @@ body {
     font-size: larger;
 }
 
-menu {
+nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -46,7 +46,7 @@ menu {
     left: 0;
 }
 
-menu a {
+nav a {
     color: white;
     text-decoration: none;
 }
