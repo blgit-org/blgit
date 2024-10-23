@@ -11,8 +11,8 @@ favicon: 🔨
 image: install.jpg
 ---
 
-To install blgit just use `npm` to install `blgit` globally:
+To install blgit just use `pip` to install `blgit` globally:
  
 ```
-npm i -g blgit
+pip install blgit
 ```
