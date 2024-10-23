@@ -1,14 +1,10 @@
 ---
-lang: en 
-
-title: New Post
-author: blgit
 date: $date$
-
+author: blgit
+title: New Post
 description: This is a new post
-
+image: image.jpg
 favicon: ⭐
-image: https://www.publicdomainpictures.net/pictures/210000/velka/new-text-overlay.jpg
 ---
 
 This is a new auto-generated post created by blgit.

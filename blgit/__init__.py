@@ -15,7 +15,7 @@ from markdown import markdown
 from rich import print
 from rich.logging import RichHandler
 
-MD_EXTENSIONS = ['fenced_code']
+MD_EXTENSIONS = ['fenced_code', 'tables', 'footnotes']
 
 logging.basicConfig(
     level=logging.INFO,
