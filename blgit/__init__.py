@@ -1,3 +1,4 @@
+import logging
 from datetime import date, datetime, timezone
 from importlib.resources import open_text
 from pathlib import Path
@@ -12,8 +13,18 @@ from frontmatter import Frontmatter
 from jinja2 import Environment, FileSystemLoader
 from markdown import markdown
 from rich import print
+from rich.logging import RichHandler
 
 MD_EXTENSIONS = ['fenced_code']
+
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[RichHandler()],
+    datefmt='%H:%M:%S',
+    format='%(message)s')
+
+log = logging.getLogger()
+
 
 app = typer.Typer()
 
@@ -31,6 +42,7 @@ class fs:
     docs = Path('docs')
     index_html = docs / 'index.html'
     index_css = docs / 'index.css'
+    rss_xml = docs / 'rss.xml'
 
 
 def res2str(name: str):
@@ -128,6 +140,7 @@ def feed(index: index_info, posts: list[post]):
         fe.link(href=f'{index.url}/{post.path}', rel='alternate')
         fe.description(post.info.description)
         fe.published(dt)
+        fe.
 
     return fg
 
@@ -162,12 +175,14 @@ def gen_posts(env: Environment, posts: list[post], config: dict):
         next = posts[(i + 1) % n]
 
         out = fs.docs / post.path
-        print(f'Generating [bold]{out}[/bold]')
+        log.info(f'Generating {out}')
+
+        data = (config | unstructure(post.info))
 
         write(
             out,
             post_j2.render(
-                **(config | unstructure(post.info)),
+                **data,
 
                 body=markdown(
                     post.body,
@@ -189,13 +204,13 @@ def build():
     env = Environment(loader=FileSystemLoader(fs.template))
     posts = read_posts()
 
-    print('Generating [bold]index.html[/bold]')
+    log.info(f'Generating {fs.index_html}')
     index_md = gen_index(env, posts)
 
     gen_posts(env, posts, unstructure(index_md.info))
 
-    print('Generating [bold]feed.xml[/bold]')
-    feed(index_md.info, posts).rss_file(fs.docs / 'feed.xml')
+    log.info(f'Generating {fs.rss_xml}')
+    feed(index_md.info, posts).rss_file(fs.rss_xml, pretty=True)
 
     print()
     print('You can now run:')
