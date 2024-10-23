@@ -20,6 +20,7 @@ class fs:
 
     docs = Path('docs')
     index_html = docs / 'index.html'
+    index_css = docs / 'index.css'
 
 
 def res2str(name: str):
@@ -82,6 +83,7 @@ def build():
     ensure_exists(fs.html_j2, res2str('html.j2'))
     ensure_exists(fs.index_j2, res2str('index.j2'))
     ensure_exists(fs.post_j2, res2str('post.j2'))
+    ensure_exists(fs.index_css, res2str('index.css'))
 
     env = Environment(loader=FileSystemLoader(fs.template))
     index_j2 = env.get_template('index.j2')

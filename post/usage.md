@@ -18,10 +18,6 @@ index.md
 post
 └─ my_first_post.md
 
-html
-├─ menu.html
-└─ comments.html
-
 docs
 ├─ index.html
 ├─ index.css
