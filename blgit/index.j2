@@ -4,7 +4,7 @@
     {% for post in posts %}
     <a class="block" href="{{post.path}}">
         <div class="post">
-            <div class="row center">
+            <div class="flex center">
                 <h2>{{post.info.favicon}} {{post.info.title}}</h2>
                 <div class=" author">{{post.info.author}} ︱ {{post.info.date.strftime(date_format or '%Y-%m-%d')}}</div>
             </div>
