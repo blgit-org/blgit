@@ -10,7 +10,7 @@ from attr import dataclass
 from cattr import structure, unstructure
 from feedgen.feed import FeedGenerator
 from frontmatter import Frontmatter
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markdown import markdown
 from rich import print
 from rich.logging import RichHandler
@@ -39,10 +39,20 @@ class fs:
     index_j2 = template / 'index.j2'
     post_j2 = template / 'post.j2'
 
+    post = Path('post')
+
     docs = Path('docs')
     index_html = docs / 'index.html'
     index_css = docs / 'index.css'
     rss_xml = docs / 'rss.xml'
+
+    @staticmethod
+    def mds():
+        return fs.post.rglob('*.md')
+
+    @staticmethod
+    def target(post_md: Path):
+        return fs.docs / post_md.relative_to(fs.post).with_suffix('.html')
 
 
 def res2str(name: str):
@@ -51,7 +61,7 @@ def res2str(name: str):
 
 
 @dataclass
-class info:
+class Info:
     title: str
     description: str
     image: str
@@ -59,54 +69,66 @@ class info:
 
 
 @dataclass
-class index_info(info):
+class IndexInfo(Info):
     url: str
     lang: str
     date_format: str
 
 
 @dataclass
-class post_info(info):
+class PostInfo(Info):
     date: Date
     author: str
 
 
 @dataclass(frozen=True, kw_only=True)
-class index:
-    info: index_info
+class Index:
+    info: IndexInfo
     body: str
 
 
 @dataclass(frozen=True, kw_only=True)
-class post:
-    info: post_info
+class Post:
+    info: PostInfo
     body: str
-    path: str
+    target: Path
+    url: str
+
+    @classmethod
+    def from_md(cls, path_md: Path):
+        fm = Frontmatter.read_file(path_md)
+
+        target = fs.target(path_md)
+        url = target.relative_to(fs.docs)
+
+        info = structure(fm['attributes'], PostInfo)
+        image = Path(info.image)
+
+        if not image.is_absolute():
+            info.image = f'/{url.parent / image}'
+
+        if url.name == 'index.html':
+            url = url.parent
+
+        return cls(
+            info=info,
+            body=fm['body'],
+            target=fs.target(path_md),
+            url=f'/{url}')
 
 
 def read_index():
     fm = Frontmatter.read_file('index.md')
 
-    return index(
-        info=structure(fm['attributes'], index_info),
+    return Index(
+        info=structure(fm['attributes'], IndexInfo),
         body=fm['body'])
-
-
-def read_post(path: Path):
-    fm = Frontmatter.read_file(path)
-
-    info = structure(fm['attributes'], post_info)
-
-    return post(
-        info=info,
-        body=fm['body'],
-        path=path.with_suffix('.html').name)
 
 
 def read_posts():
     return sorted([
-        read_post(post)
-        for post in Path('post').glob('*.md')],
+        Post.from_md(post)
+        for post in fs.mds()],
         key=lambda p: p.info.date)
 
 
@@ -123,7 +145,7 @@ def write(path: Path, content: str):
     path.write_text(content)
 
 
-def feed(index: index_info, posts: list[post]):
+def feed(index: IndexInfo, posts: list[Post]):
     fg = FeedGenerator()
     fg.title(index.title)
     fg.link(href=index.url, rel='alternate')
@@ -137,14 +159,14 @@ def feed(index: index_info, posts: list[post]):
 
         fe = fg.add_entry()
         fe.title(post.info.title)
-        fe.link(href=f'{index.url}/{post.path}', rel='alternate')
+        fe.link(href=f'{index.url}/{post.target}', rel='alternate')
         fe.description(post.info.description)
         fe.published(dt)
 
     return fg
 
 
-def gen_index(env: Environment, posts: list[post]):
+def gen_index(env: Environment, posts: list[Post]):
     index_j2 = env.get_template('index.j2')
 
     index_md = read_index()
@@ -165,7 +187,7 @@ def gen_index(env: Environment, posts: list[post]):
     return index_md
 
 
-def gen_posts(env: Environment, posts: list[post], config: dict):
+def gen_posts(env: Environment, posts: list[Post], config: dict):
     post_j2 = env.get_template('post.j2')
 
     for i, post in enumerate(posts):
@@ -173,17 +195,16 @@ def gen_posts(env: Environment, posts: list[post], config: dict):
         prev = posts[(i - 1 + n) % n]
         next = posts[(i + 1) % n]
 
-        out = fs.docs / post.path
-        log.info(f'Generating {out}')
+        log.info(f'Generating {post.target}')
 
         data = (config | unstructure(post.info))
 
         write(
-            out,
+            post.target,
             post_j2.render(
                 **data,
 
-                path=post.path,
+                path=post.target,
 
                 body=markdown(
                     post.body,
@@ -194,13 +215,15 @@ def gen_posts(env: Environment, posts: list[post], config: dict):
 
 @app.command()
 def build():
-
     ensure_exists(fs.html_j2, res2str('html.j2'))
     ensure_exists(fs.index_j2, res2str('index.j2'))
     ensure_exists(fs.post_j2, res2str('post.j2'))
     ensure_exists(fs.index_css, res2str('index.css'))
 
-    env = Environment(loader=FileSystemLoader(fs.template))
+    env = Environment(
+        undefined=StrictUndefined,
+        loader=FileSystemLoader(fs.template))
+
     posts = read_posts()
 
     log.info(f'Generating {fs.index_html}')
@@ -217,11 +240,14 @@ def build():
 
 
 @app.command()
-def new_post(name: str):
-    post = Path('post') / f'{name}.md'
+def new(name: str):
+    post = fs.post / name / 'index.md'
+
     if post.exists():
         print(f'Post [bold]{name}[/bold] already exists')
         raise typer.Exit()
+
+    post.parent.mkdir(parents=True, exist_ok=True)
 
     write(
         post,

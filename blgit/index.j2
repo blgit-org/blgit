@@ -2,7 +2,7 @@
 {% block footer %}
 <div class="posts">
     {% for post in posts %}
-    <a class="block" href="{{post.path}}">
+    <a class="block" href="{{post.url}}">
         <div class="post">
             <div class="flex center">
                 <h2>{{post.info.favicon}} {{post.info.title}}</h2>
