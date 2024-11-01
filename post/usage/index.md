@@ -30,19 +30,21 @@ docs
 └─ my_first_post.html
 ```
 
-The `.j2` files under the `template` folder controls how your home page and each post will look like.
+The `.j2` files in the `template` folder control the appearance of your homepage and each post.
 
-`index.md` is where you write the content of the home page and the `post` folder is where you write the content of your posts. 
+In the `post` folder, you write all your content in `.md` files. blgit is flexible with file structure, allowing you to use either a flat or hierarchical organization.
 
-The `docs` folder is where the generated blog is saved to. 
+The `index.md` file serves two purposes: primarily, it contains the content of your homepage; additionally, it configures certain aspects of the blog generation process.
 
-You can safely edit the `.j2` files to fit your needs. 
-You can also add images and other files to the `docs` folder and also edit the `index.css` file as blgit will not override or delete your files. 
+The `docs` folder is where the generated blog is saved.
 
-The `docs` folder should be uploaded to your static hosting service (e.g. GitHub pages) 
+Feel free to customize the `.j2` files to suit your needs. You can also add images and other files to the `docs` folder, as well as edit the `index.css` file—blgit will not overwrite or delete your files.
 
-To create this directory structure and generate your blog simply run this:
-```
+The `docs` folder should be uploaded to your static hosting service (e.g., GitHub Pages).
+
+To create this directory structure and generate your blog, simply run:
+
+```bash
 blgit build
 ```
 

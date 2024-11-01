@@ -51,14 +51,14 @@ docs
 ├─ index.css
 └─ my_first_post.html
 </code></pre>
-<p>The <code>.j2</code> files under the <code>template</code> folder controls how your home page and each post will look like.</p>
-<p><code>index.md</code> is where you write the content of the home page and the <code>post</code> folder is where you write the content of your posts. </p>
-<p>The <code>docs</code> folder is where the generated blog is saved to. </p>
-<p>You can safely edit the <code>.j2</code> files to fit your needs. 
-You can also add images and other files to the <code>docs</code> folder and also edit the <code>index.css</code> file as blgit will not override or delete your files. </p>
-<p>The <code>docs</code> folder should be uploaded to your static hosting service (e.g. GitHub pages) </p>
-<p>To create this directory structure and generate your blog simply run this:</p>
-<pre><code>blgit build
+<p>The <code>.j2</code> files in the <code>template</code> folder control the appearance of your homepage and each post.</p>
+<p>In the <code>post</code> folder, you write all your content in <code>.md</code> files. blgit is flexible with file structure, allowing you to use either a flat or hierarchical organization.</p>
+<p>The <code>index.md</code> file serves two purposes: primarily, it contains the content of your homepage; additionally, it configures certain aspects of the blog generation process.</p>
+<p>The <code>docs</code> folder is where the generated blog is saved.</p>
+<p>Feel free to customize the <code>.j2</code> files to suit your needs. You can also add images and other files to the <code>docs</code> folder, as well as edit the <code>index.css</code> file—blgit will not overwrite or delete your files.</p>
+<p>The <code>docs</code> folder should be uploaded to your static hosting service (e.g., GitHub Pages).</p>
+<p>To create this directory structure and generate your blog, simply run:</p>
+<pre><code class="language-bash">blgit build
 </code></pre>
 <p><strong>Tip:</strong> If you don't want to run <code>blgit</code> after every change, you can use your favorite file-watching tool like this:</p>
 <pre><code>ls **.css **.j2 **.md | entr -c blgit build     
