@@ -148,7 +148,10 @@ def write(path: Path, content: str):
 def feed(index: IndexInfo, posts: list[Post]):
     fg = FeedGenerator()
     fg.title(index.title)
-    fg.link(href=index.url, rel='alternate')
+    fg.link(
+        href=index.url,
+        rel='alternate')
+
     fg.description(index.description)
 
     for post in posts:
@@ -159,9 +162,12 @@ def feed(index: IndexInfo, posts: list[Post]):
 
         fe = fg.add_entry()
         fe.title(post.info.title)
-        fe.link(href=f'{index.url}/{post.target}', rel='alternate')
         fe.description(post.info.description)
         fe.published(dt)
+
+        fe.link(
+            href=f'{index.url}/{post.url}/',
+            rel='alternate')
 
     return fg
 
