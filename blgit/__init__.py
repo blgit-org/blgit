@@ -166,7 +166,7 @@ def feed(index: IndexInfo, posts: list[Post]):
         fe.published(dt)
 
         fe.link(
-            href=f'{index.url}/{post.url}/',
+            href=f'{index.url}{post.url}/',
             rel='alternate')
 
     return fg
