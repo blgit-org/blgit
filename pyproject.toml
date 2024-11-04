@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blgit"
-version = "0.0.32"
+version = "0.0.33"
 description = ""
 authors = ["Gilad Kutiel <gilad.kutiel@gmail.com>"]
 readme = "README.md"
