@@ -260,3 +260,5 @@ def new(name: str):
         res2str('new_post.md').replace(
             '$date$',
             date.today().strftime('%Y-%m-%d')))
+
+    log.info(f'Created {post}')
