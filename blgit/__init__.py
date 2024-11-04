@@ -201,7 +201,7 @@ def gen_posts(env: Environment, posts: list[Post], config: dict):
         prev = posts[(i - 1 + n) % n]
         next = posts[(i + 1) % n]
 
-        log.info(f'Generating {post.target}')
+        log.info(f'Generating {post.info.favicon} {post.target}')
 
         data = (config | unstructure(post.info))
 
