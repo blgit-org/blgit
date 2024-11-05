@@ -7,8 +7,8 @@ date: 2024-09-30
 
 description: This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog.
 
-favicon: ⚙️
-image: /img/front_matter.jpg
+favicon: 🕮
+image: img/front_matter.jpg
 ---
 
 Your `index_md` file should have a front matter section like so:

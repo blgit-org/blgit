@@ -4,7 +4,7 @@ author: Gilad Kutiel
 title: A simple example 
 description: Explore the essentials of Markdown with examples of headings, lists, links, images, code, and tables. Perfect for a quick refresher or learning the basics!
 favicon: 🧪
-image: /img/example.jpg
+image: img/example.jpg
 ---
 
 

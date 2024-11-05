@@ -7,6 +7,7 @@ from sqlite3 import Date
 import cattrs
 import typer
 from attrs import frozen
+from cattr import global_converter as conv
 from cattr import structure, unstructure
 from feedgen.feed import FeedGenerator
 from frontmatter import Frontmatter as frontmatter
@@ -15,6 +16,36 @@ from markdown import markdown
 from rich import print
 from rich.logging import RichHandler
 from rich.table import Table
+
+
+@frozen
+class Image:
+    path: Path
+    url: str
+
+    @classmethod
+    def from_path(cls, path: Path):
+        return cls(
+            path=path,
+            url=f'/{path.relative_to(fs.docs)}')
+
+    def exists(self):
+        return self.path.exists()
+
+    def __str__(self):
+        color = 'green' if self.exists() else 'red'
+        return f'[{color}]{str(self.path)}[/{color}]'
+
+
+@conv.register_structure_hook
+def path_structure_hook(path: str, _) -> Image:
+    return Image.from_path(fs.docs / path)
+
+
+@conv.register_unstructure_hook
+def path_unstructure_hook(image: Image) -> str:
+    return image.url
+
 
 MD_EXTENSIONS = [
     'fenced_code',
@@ -58,8 +89,8 @@ class fs:
         return fs.post.rglob('*.md')
 
     @staticmethod
-    def path_html(post_md: Path):
-        return fs.docs / post_md.relative_to(fs.post).with_suffix('.html')
+    def path_html(path_md: Path):
+        return fs.docs / path_md.relative_to(fs.post).with_suffix('.html')
 
 
 def res2str(name: str):
@@ -71,7 +102,7 @@ def res2str(name: str):
 class FrontMatter:
     title: str
     description: str
-    image: str
+    image: Image
     favicon: str
 
     @classmethod
@@ -222,7 +253,7 @@ def gen_posts(env: Environment, posts: list[Post], config: dict):
             post.fm.date.strftime(config['date_format']),
             post.fm.title,
             post.fm.author,
-            post.fm.image)
+            str(post.fm.image))
 
         data = (config | unstructure(post.fm))
 
@@ -237,7 +268,7 @@ def gen_posts(env: Environment, posts: list[Post], config: dict):
                     post.body,
                     extensions=MD_EXTENSIONS),
 
-                related=[prev, next]))
+                related=unstructure([prev, next])))
 
     print(table)
 
