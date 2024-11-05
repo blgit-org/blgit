@@ -266,6 +266,11 @@ tr:nth-child(even) {
         margin: var(--gap-small);
     }
 
+    .title {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .author {
         font-size: smaller;
     }
