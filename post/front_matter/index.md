@@ -8,7 +8,7 @@ date: 2024-09-30
 description: This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog.
 
 favicon: ⚙️
-image: front_matter.jpg
+image: /img/front_matter.jpg
 ---
 
 Your `index_md` file should have a front matter section like so:
@@ -21,7 +21,7 @@ date_format: '%d/%m/%Y'
 
 title: blgit.org
 description: Some description
-image: image.jpg
+image: /img/image.jpg
 favicon: 🔨
 ---
 ```
@@ -36,7 +36,7 @@ date: 2024-09-28
 
 title: blgit.org
 description: Some description
-image: image.jpg
+image: /img/image.jpg
 favicon: 🔨
 ---
 ```

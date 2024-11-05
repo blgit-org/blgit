@@ -206,7 +206,7 @@ def gen_posts(env: Environment, posts: list[Post], config: dict):
     log.info('Generating posts:')
 
     table = Table(
-        'favicon',
+        '',
         'date',
         'title',
         'author',
