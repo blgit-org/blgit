@@ -6,14 +6,15 @@ from sqlite3 import Date
 
 import cattrs
 import typer
-from attr import dataclass
+from attrs import frozen
 from cattr import structure, unstructure
 from feedgen.feed import FeedGenerator
-from frontmatter import Frontmatter
+from frontmatter import Frontmatter as frontmatter
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markdown import markdown
 from rich import print
 from rich.logging import RichHandler
+from rich.table import Table
 
 MD_EXTENSIONS = [
     'fenced_code',
@@ -38,6 +39,8 @@ cattrs.register_structure_hook(
 
 
 class fs:
+    index_md = Path('index.md')
+
     template = Path('template')
     html_j2 = template / 'html.j2'
     index_j2 = template / 'index.j2'
@@ -55,7 +58,7 @@ class fs:
         return fs.post.rglob('*.md')
 
     @staticmethod
-    def target(post_md: Path):
+    def path_html(post_md: Path):
         return fs.docs / post_md.relative_to(fs.post).with_suffix('.html')
 
 
@@ -64,76 +67,76 @@ def res2str(name: str):
         return f.read()
 
 
-@dataclass
-class Info:
+@frozen
+class FrontMatter:
     title: str
     description: str
     image: str
     favicon: str
 
+    @classmethod
+    def from_dict(cls, attrs: dict):
+        return structure(attrs, cls)
 
-@dataclass
-class IndexInfo(Info):
-    url: str
+
+@frozen
+class IndexFrontMatter(FrontMatter):
     lang: str
+    url: str
     date_format: str
 
 
-@dataclass
-class PostInfo(Info):
-    date: Date
+@frozen
+class PostFrontMatter(FrontMatter):
     author: str
+    date: Date
 
 
-@dataclass(frozen=True, kw_only=True)
+@frozen
 class Index:
-    info: IndexInfo
+    fm: IndexFrontMatter
     body: str
 
+    @classmethod
+    def from_md(cls, path_md: Path = fs.index_md):
+        md = frontmatter.read_file(path_md)
 
-@dataclass(frozen=True, kw_only=True)
+        return cls(
+            fm=IndexFrontMatter.from_dict(md['attributes']),
+            body=md['body'])
+
+
+@frozen
 class Post:
-    info: PostInfo
+    fm: PostFrontMatter
     body: str
-    target: Path
+
+    path_html: Path
     url: str
 
     @classmethod
     def from_md(cls, path_md: Path):
-        fm = Frontmatter.read_file(path_md)
+        md = frontmatter.read_file(path_md)
 
-        target = fs.target(path_md)
-        url = target.relative_to(fs.docs)
+        path_html = fs.path_html(path_md)
 
-        info = structure(fm['attributes'], PostInfo)
-        image = Path(info.image)
-
-        if not image.is_absolute():
-            info.image = f'/{url.parent / image}'
+        url = path_html.relative_to(fs.docs)
 
         if url.name == 'index.html':
             url = url.parent
 
         return cls(
-            info=info,
-            body=fm['body'],
-            target=fs.target(path_md),
-            url=f'/{url}')
-
-
-def read_index():
-    fm = Frontmatter.read_file('index.md')
-
-    return Index(
-        info=structure(fm['attributes'], IndexInfo),
-        body=fm['body'])
+            fm=PostFrontMatter.from_dict(md['attributes']),
+            body=md['body'],
+            path_html=path_html,
+            url=f'/{path_html.relative_to(fs.docs)}')
 
 
 def read_posts():
     return sorted([
         Post.from_md(post)
         for post in fs.mds()],
-        key=lambda p: p.info.date)
+        key=lambda p: p.fm.date)
 
 
 def ensure_exists(path: Path, content: str):
@@ -149,28 +152,28 @@ def write(path: Path, content: str):
     path.write_text(content)
 
 
-def feed(index: IndexInfo, posts: list[Post]):
+def feed(index: Index, posts: list[Post]):
     fg = FeedGenerator()
-    fg.title(index.title)
+    fg.title(index.fm.title)
     fg.link(
-        href=index.url,
+        href=index.fm.url,
         rel='alternate')
 
-    fg.description(index.description)
+    fg.description(index.fm.description)
 
     for post in posts:
         dt = datetime.combine(
-            post.info.date,
+            post.fm.date,
             datetime.min.time(),
             tzinfo=timezone.utc)
 
         fe = fg.add_entry()
-        fe.title(post.info.title)
-        fe.description(post.info.description)
+        fe.title(post.fm.title)
+        fe.description(post.fm.description)
         fe.published(dt)
 
         fe.link(
-            href=f'{index.url}{post.url}/',
+            href=f'{index.fm.url}{post.url}/',
             rel='alternate')
 
     return fg
@@ -179,12 +182,12 @@ def feed(index: IndexInfo, posts: list[Post]):
 def gen_index(env: Environment, posts: list[Post]):
     index_j2 = env.get_template('index.j2')
 
-    index_md = read_index()
+    index_md = Index.from_md()
 
     write(
         fs.index_html,
         index_j2.render(
-            **unstructure(index_md.info),
+            **unstructure(index_md.fm),
 
             body=markdown(
                 index_md.body,
@@ -200,27 +203,43 @@ def gen_index(env: Environment, posts: list[Post]):
 def gen_posts(env: Environment, posts: list[Post], config: dict):
     post_j2 = env.get_template('post.j2')
 
+    log.info('Generating posts:')
+
+    table = Table(
+        'favicon',
+        'date',
+        'title',
+        'author',
+        'image')
+
     for i, post in enumerate(posts):
         n = len(posts)
         prev = posts[(i - 1 + n) % n]
         next = posts[(i + 1) % n]
 
-        log.info(f'Generating {post.info.favicon} {post.target}')
+        table.add_row(
+            post.fm.favicon,
+            post.fm.date.strftime(config['date_format']),
+            post.fm.title,
+            post.fm.author,
+            post.fm.image)
 
-        data = (config | unstructure(post.info))
+        data = (config | unstructure(post.fm))
 
         write(
-            post.target,
+            post.path_html,
             post_j2.render(
                 **data,
 
-                path=post.target,
+                path=post.path_html,
 
                 body=markdown(
                     post.body,
                     extensions=MD_EXTENSIONS),
 
                 related=[prev, next]))
+
+    print(table)
 
 
 @app.command()
@@ -239,10 +258,10 @@ def build():
     log.info(f'Generating {fs.index_html}')
     index_md = gen_index(env, posts)
 
-    gen_posts(env, posts, unstructure(index_md.info))
+    gen_posts(env, posts, unstructure(index_md.fm))
 
     log.info(f'Generating {fs.rss_xml}')
-    feed(index_md.info, posts).rss_file(fs.rss_xml, pretty=True)
+    feed(index_md, posts).rss_file(fs.rss_xml, pretty=True)
 
     print()
     print('You can now run:')

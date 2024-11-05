@@ -5,11 +5,11 @@
     <a class="block" href="{{post.url}}">
         <div class="post">
             <div class="flex center">
-                <h2>{{post.info.favicon}} {{post.info.title}}</h2>
-                <div class=" author">{{post.info.author}} ︱ {{post.info.date.strftime(date_format or '%Y-%m-%d')}}</div>
+                <h2>{{post.fm.favicon}} {{post.fm.title}}</h2>
+                <div class=" author">{{post.fm.author}} ︱ {{post.fm.date.strftime(date_format or '%Y-%m-%d')}}</div>
             </div>
         </div>
-        <p>{{post.info.description}}</p>
+        <p>{{post.fm.description}}</p>
     </a>
     {% endfor %}
 </div>
