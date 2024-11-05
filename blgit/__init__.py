@@ -160,7 +160,7 @@ class Post:
             fm=PostFrontMatter.from_dict(md['attributes']),
             body=md['body'],
             path_html=path_html,
-            url=f'/{path_html.relative_to(fs.docs)}')
+            url=f'/{url}')
 
 
 def read_posts():
