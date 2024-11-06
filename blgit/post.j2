@@ -19,9 +19,9 @@
     {% for r in related %}
     <a class="block" href="{{r.url}}">
         <div class="preview">
-            <img src="{{r.fm.image}}" alt="{{r.fm.title}}">
-            <h3>{{r.fm.title}}</h3>
-            <p>{{r.fm.description}}</p>
+            <img src="{{r.image}}" alt="{{r.title}}">
+            <h3>{{r.title}}</h3>
+            <p>{{r.description}}</p>
         </div>
     </a>
     {% endfor %}

@@ -6,8 +6,8 @@ from sqlite3 import Date
 
 import cattrs
 import typer
+import yaml
 from attrs import frozen
-from cattr import global_converter as conv
 from cattr import structure, unstructure
 from feedgen.feed import FeedGenerator
 from frontmatter import Frontmatter as frontmatter
@@ -16,36 +16,6 @@ from markdown import markdown
 from rich import print
 from rich.logging import RichHandler
 from rich.table import Table
-
-
-@frozen
-class Image:
-    path: Path
-    url: str
-
-    @classmethod
-    def from_path(cls, path: Path):
-        return cls(
-            path=path,
-            url=f'/{path.relative_to(fs.docs)}')
-
-    def exists(self):
-        return self.path.exists()
-
-    def __str__(self):
-        color = 'green' if self.exists() else 'red'
-        return f'[{color}]{str(self.path)}[/{color}]'
-
-
-@conv.register_structure_hook
-def path_structure_hook(path: str, _) -> Image:
-    return Image.from_path(fs.docs / path)
-
-
-@conv.register_unstructure_hook
-def path_unstructure_hook(image: Image) -> str:
-    return image.url
-
 
 MD_EXTENSIONS = [
     'fenced_code',
@@ -102,12 +72,19 @@ def res2str(name: str):
 class FrontMatter:
     title: str
     description: str
-    image: Image
+    image: str
     favicon: str
 
     @classmethod
     def from_dict(cls, attrs: dict):
         return structure(attrs, cls)
+
+    def as_dict(self):
+        image = self.image
+        image = fs.docs / image
+        image = f'/{image.relative_to(fs.docs)}'
+
+        return unstructure(self) | {'image': image}
 
 
 @frozen
@@ -161,6 +138,10 @@ class Post:
             body=md['body'],
             path_html=path_html,
             url=f'/{url}')
+
+
+def related_dict(post: Post):
+    return {'url': post.url} | post.fm.as_dict()
 
 
 def read_posts():
@@ -218,7 +199,7 @@ def gen_index(env: Environment, posts: list[Post]):
     write(
         fs.index_html,
         index_j2.render(
-            **unstructure(index_md.fm),
+            **index_md.fm.as_dict(),
 
             body=markdown(
                 index_md.body,
@@ -255,7 +236,7 @@ def gen_posts(env: Environment, posts: list[Post], config: dict):
             post.fm.author,
             str(post.fm.image))
 
-        data = (config | unstructure(post.fm))
+        data = (config | post.fm.as_dict())
 
         write(
             post.path_html,
@@ -268,7 +249,9 @@ def gen_posts(env: Environment, posts: list[Post], config: dict):
                     post.body,
                     extensions=MD_EXTENSIONS),
 
-                related=unstructure([prev, next])))
+                related=[
+                    related_dict(prev),
+                    related_dict(next)]))
 
     print(table)
 
@@ -309,10 +292,22 @@ def new(name: str):
 
     post.parent.mkdir(parents=True, exist_ok=True)
 
-    write(
-        post,
-        res2str('new_post.md').replace(
-            '$date$',
-            date.today().strftime('%Y-%m-%d')))
+    fm = PostFrontMatter(
+        author='author',
+        date=date.today(),
+        description='description',
+        favicon='🏖️',
+        image='image.jpg',
+        title='title')
+
+    with open(post, 'w') as f:
+        print('---', file=f)
+
+        yaml.dump(
+            unstructure(fm),
+            stream=f,
+            allow_unicode=True)
+
+        print('---', file=f)
 
     log.info(f'Created {post}')
