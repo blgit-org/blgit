@@ -229,12 +229,16 @@ def gen_posts(env: Environment, posts: list[Post], config: dict):
         prev = posts[(i - 1 + n) % n]
         next = posts[(i + 1) % n]
 
+        image = post.fm.image
+        image = fs.docs / image
+        color = 'green' if image.exists() else 'red'
+
         table.add_row(
             post.fm.favicon,
             post.fm.date.strftime(config['date_format']),
             post.fm.title,
             post.fm.author,
-            str(post.fm.image))
+            f'[{color}]{image}[/{color}]')
 
         data = (config | post.fm.as_dict())
 
