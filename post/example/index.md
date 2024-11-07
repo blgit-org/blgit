@@ -1,12 +1,13 @@
 ---
-date: 2024-10-23
 author: Gilad Kutiel
-title: A simple example 
-description: Explore the essentials of Markdown with examples of headings, lists, links, images, code, and tables. Perfect for a quick refresher or learning the basics!
+date: 2024-10-23
+description: Explore the essentials of Markdown with examples of headings, lists,
+  links, images, code, and tables. Perfect for a quick refresher or learning the basics!
+draft: true
 favicon: 🧪
 image: img/example.jpg
+title: A simple example
 ---
-
 
 # Markdown Syntax Guide
 

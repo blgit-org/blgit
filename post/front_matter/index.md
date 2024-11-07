@@ -1,14 +1,13 @@
 ---
-lang: en 
-
-title: Front Matter
 author: Gilad Kutiel
 date: 2024-09-30
-
-description: This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog.
-
+description: This section explains how to write a new post in blgit. It provides step-by-step
+  instructions on creating and formatting content for your blog.
+draft: true
 favicon: 🕮
 image: img/front_matter.jpg
+lang: en
+title: Front Matter
 ---
 
 Your `index_md` file should have a front matter section like so:

@@ -6,30 +6,30 @@
     <description>blgit – The Simplest Static Blog Generator on Earth.</description>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Thu, 07 Nov 2024 10:01:31 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 Nov 2024 10:02:48 +0000</lastBuildDate>
     <item>
-      <title>title</title>
-      <link>https://blgit.org/installation/</link>
-      <description>description</description>
-      <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>title</title>
-      <link>https://blgit.org/usage/</link>
-      <description>description</description>
-      <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>title</title>
-      <link>https://blgit.org/front_matter/</link>
-      <description>description</description>
-      <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>title</title>
+      <title>A simple example</title>
       <link>https://blgit.org/example/</link>
-      <description>description</description>
-      <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>
+      <description>Explore the essentials of Markdown with examples of headings, lists, links, images, code, and tables. Perfect for a quick refresher or learning the basics!</description>
+      <pubDate>Wed, 23 Oct 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Front Matter</title>
+      <link>https://blgit.org/front_matter/</link>
+      <description>This section explains how to write a new post in blgit. It provides step-by-step instructions on creating and formatting content for your blog.</description>
+      <pubDate>Mon, 30 Sep 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Usage</title>
+      <link>https://blgit.org/usage/</link>
+      <description>This section describes the directory structure of blgit and its basic usage. It covers how the files and folders are organized and provides guidance on how to use the tool effectively for managing your blog.</description>
+      <pubDate>Sun, 29 Sep 2024 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Installation</title>
+      <link>https://blgit.org/installation/</link>
+      <description>This section describes how to install blgit, an opinionated, simple static blog generator with zero configuration. With its streamlined setup and Git integration, you'll be able to quickly get your blog up and running in no time.</description>
+      <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>
