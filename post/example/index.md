@@ -11,6 +11,8 @@ title: A simple example
 
 # Markdown Syntax Guide
 
+Here is the [Markdown source code of this post](https://github.com/blgit-org/blgit/blob/main/post/example/index.md?plain=1).  
+
 ## Headings
 # H1 Heading
 ## H2 Heading
@@ -65,3 +67,11 @@ def hello_world():
 | Header      | Title       |
 | Paragraph   | Text        |
 
+!!! note 
+    This is a note
+
+!!! warn
+    This is a warning
+
+!!! danger
+    This is a danger
