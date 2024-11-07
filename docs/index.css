@@ -211,6 +211,38 @@ tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+.admonition {
+    padding: .5em 1em;
+    margin: 1em 0;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    border-left: 5px solid;
+}
+
+.admonition p {
+    margin: 0;
+}
+
+.admonition.note {
+    background-color: #e8f4ff;
+    border-color: #007acc;
+}
+
+.admonition-title {
+    font-weight: 500;
+}
+
+.admonition.warn {
+    background-color: #fff8e5;
+    border-color: #ffb400;
+}
+
+.admonition.danger {
+    background-color: #ffe5e5;
+    border-color: #d9534f;
+}
+
 @media (max-width: 800px) {
     :root {
         --color: #333;

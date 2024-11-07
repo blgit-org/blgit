@@ -6,7 +6,13 @@
     <description>blgit – The Simplest Static Blog Generator on Earth.</description>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Thu, 07 Nov 2024 10:02:48 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 Nov 2024 10:27:27 +0000</lastBuildDate>
+    <item>
+      <title>Fixing</title>
+      <link>https://blgit.org/fix/</link>
+      <description>The fix subcommand automatically corrects or updates the frontmatter of your posts to ensure they are properly formatted and compatible with blgit.</description>
+      <pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>A simple example</title>
       <link>https://blgit.org/example/</link>

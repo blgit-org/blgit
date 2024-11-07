@@ -21,7 +21,8 @@ MD_EXTENSIONS = [
     'fenced_code',
     'tables',
     'footnotes',
-    'toc']
+    'toc',
+    'admonition',]
 
 logging.basicConfig(
     level=logging.INFO,
