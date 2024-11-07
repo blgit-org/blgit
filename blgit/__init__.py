@@ -98,6 +98,7 @@ class IndexFrontMatter(FrontMatter):
 class PostFrontMatter(FrontMatter):
     author: str
     date: Date
+    draft: bool
 
 
 @frozen
@@ -286,6 +287,16 @@ def build():
     print('[bold]npx serve docs[/bold]')
 
 
+NEW_POST_FM = PostFrontMatter(
+    author='author',
+    date=date.today(),
+    description='description',
+    favicon='🏖️',
+    image='image.jpg',
+    title='title',
+    draft=True)
+
+
 @app.command()
 def new(name: str):
     post = fs.post / name / 'index.md'
@@ -296,22 +307,35 @@ def new(name: str):
 
     post.parent.mkdir(parents=True, exist_ok=True)
 
-    fm = PostFrontMatter(
-        author='author',
-        date=date.today(),
-        description='description',
-        favicon='🏖️',
-        image='image.jpg',
-        title='title')
-
     with open(post, 'w') as f:
         print('---', file=f)
 
         yaml.dump(
-            unstructure(fm),
+            unstructure(NEW_POST_FM),
             stream=f,
             allow_unicode=True)
 
         print('---', file=f)
 
     log.info(f'Created {post}')
+
+
+@app.command()
+def fix():
+    for post in fs.mds():
+        md = frontmatter.read_file(post)
+
+        with open(post, 'w') as f:
+            print('---', file=f)
+
+            yaml.dump(
+                unstructure(NEW_POST_FM) | md['attributes'],
+                stream=f,
+                allow_unicode=True)
+
+            print('---', file=f)
+            print(file=f)
+
+            f.write(md['body'])
+
+        log.info(f'Fixed {post}')
