@@ -108,13 +108,13 @@ blockquote {
 }
 
 blockquote p:first-child:before {
-    content: '“';
+    content: '”';
     margin: 0 .1em;
     font-size: 1.8em;
 }
 
 blockquote p:first-child:after {
-    content: '”';
+    content: '„';
     margin: 0 .1em;
     font-size: 1.8em;
 }
